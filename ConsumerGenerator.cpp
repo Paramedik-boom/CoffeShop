@@ -1,10 +1,13 @@
-#include"Consumer.cpp"
 #include <ctime>
+#include"Consumer.cpp"
 
+class Randomizer {
+public:
+	static int randomInt(int left, int right) {
+		return left + rand() % right;
+	}
+};
 
-int randomInt(int left, int right) {
-	return left + rand() % right;
-}
 
 class ConsumerGenerator
 {
@@ -23,7 +26,7 @@ public:
 		"Maksim"
 	};
 	 Consumer* generateConsumer() {
-		return new Consumer(this->names[randomInt(0,6)], this->drinksName[randomInt(0, 11)]);
+		return new Consumer(this->names[Randomizer::randomInt(0,6)], this->drinksName[Randomizer::randomInt(0, 11)]);
 	}
 	
 		

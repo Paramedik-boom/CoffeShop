@@ -10,6 +10,17 @@ public:
 	int evMark;
 	int fail;
 	int success;
+
+	void coutInfo() {
+		std::cout << "\n";
+		std::cout << "--------------------------------------";
+		std::cout << "Consumers amounth: " << this->consumers << "\n";
+		std::cout << "Everage mark: " << this->evMark << "\n";
+		std::cout << "Fails amounth: " << this->fail << "\n";
+		std::cout << "Success amounth: " << this->success << "\n";
+		std::cout << "--------------------------------------";
+		std::cout << "\n";
+	}
 };
 
 class Controller

@@ -1,18 +1,19 @@
 #include <iostream>
-#include <vector>
-#include <map>
 #include <queue>
+#include <map>
+#include <iostream>
+#include <list>
+#include <iterator>
 #include "windows.h"
 #include "Controller.cpp"
 #include "ConsumerGenerator.cpp"
-#include "Worker.cpp"
 
 
 
 class App
 {
 public:
-	std::queue<Consumer*> consumers;
+	std::list<Consumer*> consumers;
 	Drink* drinks[5] = {
 		new Drink("Capucinno", 100, 20, 100, 10, 5),
 		new Drink("Americano", 80, 30, 0, 0, 2),
@@ -39,7 +40,6 @@ public:
 		return this->drinks[mapping[name]];
 	};
 
-	std::vector<Consumer*> consumers;
 	Controller* controller;
 	ConsumerGenerator* generator;
 	App()
@@ -50,6 +50,7 @@ public:
 	~App()
 	{
 	};
+	
 	
 
 	void start() {
@@ -69,10 +70,14 @@ public:
 			}*/
 
 		while (this->controller->isEndOfDay()) {
-			consumers.push(generator->generateConsumer());
-			for (int i = 0; i < consumers.size(); i++) {
+			this->consumers.push_back(generator->generateConsumer());
+			
+
+			for (auto it = this->consumers.begin(); it != this->consumers.end(); it++) {
+				this->controller->createDrink(this->DrinkSpecByName((*it)->drinkName), this->workers[Randomizer::randomInt(0, 5)]);
 
 			}
+			this->controller->timeWasting(Randomizer::randomInt(0, 20));
 		}
 
 		
