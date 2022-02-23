@@ -1,12 +1,26 @@
+#include <vector>
 #include "Store.cpp"
 #include "Drink.cpp"
+#include "Worker.cpp"
 
-//std::string name, int value, int seed, int milk, int syrup
-
+class Stat
+{
+public:
+	int consumers;
+	int evMark;
+	int fail;
+	int success;
+};
 
 class Controller
 {
 public:
+	int day = 1;
+	int time = 1440;
+	bool isChasiersBusy[2] = {
+		false,
+		false
+	};
 	Controller()
 	{
 		this->store = new Store(1000, 2300, 1000, 100);
@@ -23,7 +37,7 @@ public:
 		return false;
 	}
 
-	bool createDrink(Drink* drink) {
+	bool createDrink(Drink* drink, Worker* worker) {
 		if (this->store->seed < drink->seedAmounth ||
 			this->store->milk < drink->milkAmounth ||
 			this->store->milk < drink->syrupAmounth ||
@@ -33,7 +47,50 @@ public:
 			this->store->seed -= drink->seedAmounth;
 			this->store->milk -= drink->milkAmounth;
 			this->store->milk -= drink->syrupAmounth;
+			this->time -= worker->time;
 		return true;
+	}
+
+	bool isAllCashiersBusy() {
+		for (int i = 0; i < 2; i++) {
+			if (this->isChasiersBusy[i] == false)
+				return false;
+		}
+		return true;
+	}
+
+	void takeCashier() {
+		if (!this->isChasiersBusy[0]) {
+			this->isChasiersBusy[0] = true;
+		}
+		else
+			this->isChasiersBusy[1] = true;
+
+	}
+
+	void freeCashier() {
+		if (this->isChasiersBusy[0]) {
+			this->isChasiersBusy[0] = false;
+		}
+		else
+			this->isChasiersBusy[1] = false;
+	}
+
+	void reset() {
+		this->day++;
+		this->time = 1440;
+	}
+
+	void timeWasting(int num) {
+		this->time -= num;
+	}
+
+	bool isEndOfDay() {
+		return this->time < 0;
+	}
+
+	void addStats() {
+
 	}
 
 private:

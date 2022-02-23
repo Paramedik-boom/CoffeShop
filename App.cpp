@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <queue>
 #include "windows.h"
 #include "Controller.cpp"
 #include "ConsumerGenerator.cpp"
@@ -11,12 +12,21 @@
 class App
 {
 public:
+	std::queue<Consumer*> consumers;
 	Drink* drinks[5] = {
-	new Drink("Capucinno", 100, 20, 100, 10, 5),
-	new Drink("Americano", 80, 30, 0, 0, 2),
-	new Drink("Mocha", 140, 20, 100, 10, 30),
-	new Drink("Espresso", 110, 20, 100, 10, 10),
-	new Drink("HotChocolate", 200, 0, 300, 100),
+		new Drink("Capucinno", 100, 20, 100, 10, 5),
+		new Drink("Americano", 80, 30, 0, 0, 2),
+		new Drink("Mocha", 140, 20, 100, 10, 30),
+		new Drink("Espresso", 110, 20, 100, 10, 10),
+		new Drink("HotChocolate", 200, 0, 300, 100),
+	};
+
+	Worker* workers[5] = {
+		new Worker("Alyaksey", 7),
+		new Worker ("Roman", 4),
+		new Worker("Ivan", 10),
+		new Worker("Sarvar", 8),
+		new Worker(),
 	};
 
 	Drink* DrinkSpecByName(std::string name) {
@@ -40,6 +50,8 @@ public:
 	~App()
 	{
 	};
+	
+
 	void start() {
 		/*while (true) {
 			Consumer* newConsumer = generator->generateConsumer();
@@ -52,10 +64,18 @@ public:
 			for (int i = 0; i < consumers.size(); i++) {
 				std::cout << consumers[i]->name << "\n";
 			}
-			Sleep(3000);
-		}*/
-		Worker* Alesya = new Worker();
-		delete Alesya;
+			this->controller->timeWasting(randomInt(0, 20));
+			cin.get();	
+			}*/
+
+		while (this->controller->isEndOfDay()) {
+			consumers.push(generator->generateConsumer());
+			for (int i = 0; i < consumers.size(); i++) {
+
+			}
+		}
+
+		
 	}
 
 };

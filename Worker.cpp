@@ -6,6 +6,7 @@ class Worker
 public:
 	std::string name;
 	int time;
+	bool isBusy;
 
 
 
@@ -13,6 +14,7 @@ public:
 	{
 		this->name = name;
 		this->time = time;
+		this->isBusy = false;
 		
 
 	};
@@ -20,7 +22,9 @@ public:
 		std::cout << "Destruct" << "\n";
 	};
 
+	void makeDrink(){}
+	void busyToggle() {
+		this->isBusy = !this->isBusy;
+	}
 
 };
-
-Worker* ne = new Worker(1);
