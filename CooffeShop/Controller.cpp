@@ -3,7 +3,7 @@
 #include "Drink.cpp"
 #include "Worker.cpp"
 
-class Stat
+class Stat// класс введение статистики считивается колиечство покупателей,неудач,удач и оценок
 {
 public:
 	int consumers;
@@ -17,7 +17,7 @@ public:
 		this->success = 0;
 	}
 
-	double countEvmark() {
+	double countEvmark() {//подсчёт средную оценку
 		if (marks.size() == 0) {
 			return 0;
 		}
@@ -28,7 +28,7 @@ public:
 		return initMark / marks.size();
 	}
 
-	void coutInfo() {
+	void coutInfo() {//вывести информация(статистику)
 		std::cout << "\n";
 		std::cout << "--------------------------------------" << "\n";
 		std::cout << "Consumers amounth: " << this->consumers << "\n";
@@ -63,45 +63,45 @@ private:
 	Store* store;
 public:
 	int day = 1;
-	int time = 1440;
-	bool isChasiersBusy[2] = {
+	int time = 1440;//в одном дне 1440 минут
+	bool isChasiersBusy[2] = {//проевка свободной кассы
 		false,
 		false
 	};
-	std::vector<Stat*> stats;
+	std::vector<Stat*> stats;//переменная для сбора статистики
 	Stat* curStat = new Stat();
 	Controller()
 	{
-		this->store = new Store(10000, 23000, 10000, 1000);
+		this->store = new Store(10000, 23000, 10000, 1000);//количество ингридиентов
 	}
 	;
 	~Controller() {
 		delete this->store;
 	};
 
-	bool isFail(int possible) {
+	bool isFail(int possible) {//испортился ли напиток предел 1
 		if (1 + rand() % 100 < possible) {
 			return true;
 		};
 		return false;
 	}
 
-	bool createDrink(Drink* drink, Worker* worker) {
+	bool createDrink(Drink* drink, Worker* worker) {// проверка ингридиентов и фейла
 		if (this->store->seed < drink->seedAmounth ||
 			this->store->milk < drink->milkAmounth ||
 			this->store->milk < drink->syrupAmounth ||
 			this->isFail(drink->possibleFail)
 			)
 		return false;
-			this->store->seed -= drink->seedAmounth;
+			this->store->seed -= drink->seedAmounth;//если фейл занового отнимется ингридиенты
 			this->store->milk -= drink->milkAmounth;
 			this->store->milk -= drink->syrupAmounth;
-			worker->setTime(drink->timeTodo);
+			worker->setTime(drink->timeTodo);// работник заного занят и отгнимается на время
 			worker->busyToggle();
 		return true;
 	}
 
-	bool isAllCashiersBusy() {
+	bool isAllCashiersBusy() {//проверка касс
 		for (int i = 0; i < 2; i++) {
 			if (this->isChasiersBusy[i] == false)
 				return false;
@@ -109,7 +109,7 @@ public:
 		return true;
 	}
 
-	void takeCashier() {
+	void takeCashier() {//если касса незанята принимаетя заказ
 		if (!this->isChasiersBusy[0]) {
 			this->isChasiersBusy[0] = true;
 		}
@@ -118,7 +118,7 @@ public:
 
 	}
 
-	void freeCashier() {
+	void freeCashier() {//провеока 2ой кассы
 		if (this->isChasiersBusy[0]) {
 			this->isChasiersBusy[0] = false;
 		}
@@ -128,22 +128,22 @@ public:
 
 	
 
-	void timeWasting(int num) {
+	void timeWasting(int num) {// функсия отнимает время от дня
 		this->time -= num;
 	}
 
-	bool isEndOfDay() {
+	bool isEndOfDay() {//проверка конца дня
 		return this->time < 0;
 	}
 
-	void coutAllStats() {
+	void coutAllStats() {//показ дня статистики
 			std::cout << "\n";
 			std::cout << "Day No" << stats.size() << "\n";
 			this->stats[stats.size()-1]->coutInfo();
 			std::cout << "\n";
 	}
 
-	void reset() {
+	void reset() {//обновление дня и ингридиентов
 		this->day++;
 		this->time = 1440;
 		this->stats.push_back(this->curStat);

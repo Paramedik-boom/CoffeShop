@@ -18,7 +18,7 @@ public:
 		this->timeToWait = time;
 	}
 
-	bool timeToLeave(int curTime) {
+	bool timeToLeave(int curTime) { //сравнение времени прихода и ожидание покупателя если больше 30минут покупатель уходит
 		return timeToWait - curTime > 30;
 	}
 

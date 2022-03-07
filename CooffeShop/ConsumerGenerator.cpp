@@ -3,13 +3,13 @@
 
 class Randomizer {
 public:
-	static int randomInt(int left, int right) {
+	static int randomInt(int left, int right) {//возврашает число от левого до правого
 		return left + rand() % right;
 	}
 };
 
 
-class ConsumerGenerator
+class ConsumerGenerator//класс генератор покупателей и напитков 
 {
 public:
 	std::string drinksName[5] = { "Capucinno","Americano",

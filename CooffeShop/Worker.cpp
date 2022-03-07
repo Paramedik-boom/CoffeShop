@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-class Worker
+class Worker //класс работник
 {
 public:
 	std::string name;
@@ -20,15 +20,15 @@ public:
 		std::cout << "Destruct" << "\n";
 	};
 
-	void busyToggle() {
+	void busyToggle() {//переключатель режима работника
 		this->isBusy = !this->isBusy;
 	}
 
-	void setTime(int time) {
+	void setTime(int time) {//уcтановка КД(cooldown)
 	 this->timeToDo = time;
 	}
 
-	void checkIsDone() {
+	void checkIsDone() {// проверка закончания работы и перевод на переключателя
 		if (this->isBusy)
 		{
 			this->timeToDo--;

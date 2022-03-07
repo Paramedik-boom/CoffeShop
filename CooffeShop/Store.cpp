@@ -7,7 +7,7 @@ enum INGRIDIENTS {
 	desertIngridient,
 };
 
-class Store
+class Store //класс склад
 {	
 public:
 	int seed;

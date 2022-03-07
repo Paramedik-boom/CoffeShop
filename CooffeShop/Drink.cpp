@@ -2,7 +2,7 @@
 class Drink
 {
 public:
-	std::string name;
+	std::string name;// класс характеристики рецепт напитков
 	int value;
 	int seedAmounth;
 	int milkAmounth;
