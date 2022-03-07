@@ -12,8 +12,6 @@ public:
 class ConsumerGenerator
 {
 public:
-	
-
 	std::string drinksName[5] = { "Capucinno","Americano",
 				   "Mocha","Espresso","HotChocolate"
 	};
@@ -25,8 +23,8 @@ public:
 		"Ivan", "Gena", "Denis",
 		"Maksim"
 	};
-	 Consumer* generateConsumer() {
-		return new Consumer(this->names[Randomizer::randomInt(0,6)], this->drinksName[Randomizer::randomInt(0, 11)]);
+	 Consumer* generateConsumer(int time) {
+		return new Consumer(this->names[Randomizer::randomInt(0,6)], this->drinksName[Randomizer::randomInt(0, 11)], time);
 	}
 	
 		

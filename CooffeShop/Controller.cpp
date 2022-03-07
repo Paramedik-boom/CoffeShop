@@ -7,24 +7,60 @@ class Stat
 {
 public:
 	int consumers;
-	int evMark;
 	int fail;
 	int success;
+	std::vector<int> marks;
+
+	Stat() {
+		this->consumers = 0;
+		this->fail = 0;
+		this->success = 0;
+	}
+
+	double countEvmark() {
+		if (marks.size() == 0) {
+			return 0;
+		}
+		int initMark = 0;
+		for (int i = 0; i < marks.size(); i++) {
+			initMark += marks[i];
+		}
+		return initMark / marks.size();
+	}
 
 	void coutInfo() {
 		std::cout << "\n";
-		std::cout << "--------------------------------------";
+		std::cout << "--------------------------------------" << "\n";
 		std::cout << "Consumers amounth: " << this->consumers << "\n";
-		std::cout << "Everage mark: " << this->evMark << "\n";
+		std::cout << "Everage mark: " << this->countEvmark() << "\n";
 		std::cout << "Fails amounth: " << this->fail << "\n";
 		std::cout << "Success amounth: " << this->success << "\n";
 		std::cout << "--------------------------------------";
 		std::cout << "\n";
 	}
+
+	void addMark(int num) {
+		this->marks.push_back(num);
+	}
+
+	void addFail() {
+		this->fail++;
+	}
+
+	void addSuccess() {
+		this->success++;
+	}
+
+	void addConsumers() {
+		this->consumers++;
+	}
+
 };
 
 class Controller
 {
+private:
+	Store* store;
 public:
 	int day = 1;
 	int time = 1440;
@@ -32,9 +68,11 @@ public:
 		false,
 		false
 	};
+	std::vector<Stat*> stats;
+	Stat* curStat = new Stat();
 	Controller()
 	{
-		this->store = new Store(1000, 2300, 1000, 100);
+		this->store = new Store(10000, 23000, 10000, 1000);
 	}
 	;
 	~Controller() {
@@ -58,7 +96,8 @@ public:
 			this->store->seed -= drink->seedAmounth;
 			this->store->milk -= drink->milkAmounth;
 			this->store->milk -= drink->syrupAmounth;
-			this->time -= worker->time;
+			worker->setTime(drink->timeTodo);
+			worker->busyToggle();
 		return true;
 	}
 
@@ -87,10 +126,7 @@ public:
 			this->isChasiersBusy[1] = false;
 	}
 
-	void reset() {
-		this->day++;
-		this->time = 1440;
-	}
+	
 
 	void timeWasting(int num) {
 		this->time -= num;
@@ -100,10 +136,23 @@ public:
 		return this->time < 0;
 	}
 
-	void addStats() {
+	void coutAllStats() {
+			std::cout << "\n";
+			std::cout << "Day No" << stats.size() << "\n";
+			this->stats[stats.size()-1]->coutInfo();
+			std::cout << "\n";
+	}
+
+	void reset() {
+		this->day++;
+		this->time = 1440;
+		this->stats.push_back(this->curStat);
+		//this->curStat = new Stat();
+		this->coutAllStats();	
+		delete this->store;
+		this->store = new Store(10000, 23000, 10000, 1000);
 
 	}
 
-private:
-	Store *store;
+
 };

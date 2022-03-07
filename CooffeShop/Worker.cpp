@@ -5,26 +5,36 @@ class Worker
 {
 public:
 	std::string name;
-	int time;
 	bool isBusy;
+	int timeToDo;
 
 
 
-	Worker(std::string name = "Azam", int time = 5)
+	Worker(std::string name = "Azam",int time = 0)
 	{
 		this->name = name;
-		this->time = time;
 		this->isBusy = false;
-		
-
+		this->timeToDo = time;
 	};
 	~Worker() {
 		std::cout << "Destruct" << "\n";
 	};
 
-	void makeDrink(){}
 	void busyToggle() {
 		this->isBusy = !this->isBusy;
+	}
+
+	void setTime(int time) {
+	 this->timeToDo = time;
+	}
+
+	void checkIsDone() {
+		if (this->isBusy)
+		{
+			this->timeToDo--;
+			if (timeToDo <= 0)
+			this->busyToggle();
+		}
 	}
 
 };
